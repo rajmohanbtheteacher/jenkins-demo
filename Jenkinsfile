@@ -13,6 +13,12 @@ pipeline {
     }
 
     stage('Install Dependencies') {
+      agent {
+        docker {
+          image 'node:16-alpine'
+          args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+      }
       steps {
         dir('app') {
           sh 'npm install'
@@ -21,6 +27,12 @@ pipeline {
     }
 
     stage('Test') {
+      agent {
+        docker {
+          image 'node:16-alpine'
+          args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
+      }
       steps {
         dir('app') {
           sh 'npm test || echo "No tests defined. Skipping..."'
